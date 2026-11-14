@@ -1,0 +1,6 @@
+scapy>=2.6,<3
+streamlit>=1.67,<2
+pandas>=2.2,<3
+plotly>=5.24,<7
+pytest>=8,<10
+ruff>=0.8,<1

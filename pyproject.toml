@@ -1,0 +1,13 @@
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+ignore = [
+    "BLE001", # Scapy exposes arbitrary third-party packet/link-layer exceptions; ingestion must isolate them.
+    "S110",   # A malformed optional layer is intentionally treated as absent.
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
