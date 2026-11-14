@@ -10,7 +10,14 @@ import streamlit as st
 from netscope.capture import CaptureController, CaptureError, list_interfaces
 from netscope.filters import PacketFilters, filter_records
 from netscope.pcap_io import PcapImportError, load_pcap, load_pcap_bytes
-from netscope.ui import inject_styles, render_dashboard, source_badge
+from netscope.ui import (
+    inject_styles,
+    render_dashboard,
+    render_page_header,
+    sidebar_brand,
+    sidebar_label,
+    sidebar_note,
+)
 
 ROOT = Path(__file__).resolve().parent
 DEMO_PATH = ROOT / "samples" / "netscope_demo.pcap"
@@ -87,7 +94,7 @@ def _switch_mode(mode: str) -> None:
 def _source_controls(mode: str) -> None:
     controller: CaptureController = st.session_state.capture_controller
     if mode == "Demo PCAP":
-        st.sidebar.info("Deterministic sample data. No internet, Npcap, or administrator rights required.")
+        sidebar_note("Deterministic offline capture. No internet, Npcap, or administrator rights required.")
         if st.sidebar.button("Reload sample data", width="stretch"):
             _load_demo()
         if DEMO_PATH.exists():
@@ -100,8 +107,8 @@ def _source_controls(mode: str) -> None:
             )
     elif mode == "Import PCAP":
         upload = st.sidebar.file_uploader("Choose a classic .pcap file", type=["pcap"])
-        st.sidebar.caption("Maximum 20 MiB and 20,000 packets. PCAPNG is intentionally rejected.")
-        if st.sidebar.button("Analyze uploaded PCAP", disabled=upload is None, width="stretch"):
+        sidebar_note("Classic PCAP only · 20 MiB · 20,000 packet limit. Uploaded files are removed after parsing.")
+        if st.sidebar.button("Analyze capture", disabled=upload is None, width="stretch", type="primary"):
             try:
                 result = load_pcap_bytes(upload.getvalue(), upload.name)
                 st.session_state.records = list(result.records)
@@ -127,7 +134,12 @@ def _source_controls(mode: str) -> None:
             st.sidebar.error("No capture interfaces could be enumerated. Demo and PCAP modes still work.")
         snapshot = controller.status()
         button_columns = st.sidebar.columns(2)
-        if button_columns[0].button("Start", disabled=snapshot.state in {"starting", "capturing"} or not selected_interface):
+        if button_columns[0].button(
+            "Start",
+            disabled=snapshot.state in {"starting", "capturing"} or not selected_interface,
+            type="primary",
+            width="stretch",
+        ):
             try:
                 if snapshot.state == "error":
                     controller.clear()
@@ -136,7 +148,11 @@ def _source_controls(mode: str) -> None:
                 st.session_state.source_revision += 1
             except CaptureError as exc:
                 st.sidebar.error(str(exc))
-        if button_columns[1].button("Stop", disabled=snapshot.state not in {"starting", "capturing"}):
+        if button_columns[1].button(
+            "Stop",
+            disabled=snapshot.state not in {"starting", "capturing"},
+            width="stretch",
+        ):
             try:
                 controller.stop()
                 controller.drain(5_000)
@@ -160,63 +176,64 @@ def _source_controls(mode: str) -> None:
         )
         if snapshot.error:
             st.sidebar.error(snapshot.error)
-        st.sidebar.info("Capture is local-interface only. Not all LAN traffic is observable, and HTTPS content remains encrypted.")
+        sidebar_note("Local interface only. Switched LAN traffic may not be visible, and HTTPS content remains encrypted.")
 
 
 def _filter_controls(records) -> PacketFilters:
     st.sidebar.divider()
-    st.sidebar.subheader("Filters")
-    st.sidebar.button("Clear filters", on_click=_clear_filter_state, width="stretch")
-    protocol = st.sidebar.selectbox("Primary protocol", ["All", "TCP", "UDP", "ICMP", "DNS", "ARP", "Other"], key="filter_protocol")
-    ip_mode = st.sidebar.radio("IP matching", ["Contains", "Exact"], horizontal=True, key="filter_ip_mode")
-    src_ip = st.sidebar.text_input("Source IP", key="filter_src_ip", placeholder="e.g. 192.168.50")
-    dst_ip = st.sidebar.text_input("Destination IP", key="filter_dst_ip", placeholder="e.g. 203.0.113.8")
-    port_text = st.sidebar.text_input("Either port", key="filter_port", placeholder="e.g. 53")
-    keyword = st.sidebar.text_input("Summary / DNS keyword", key="filter_keyword", placeholder="e.g. example.com")
-    either_port = None
-    if port_text.strip():
-        try:
-            either_port = int(port_text)
-            if not 0 <= either_port <= 65535:
-                raise ValueError
-        except ValueError:
-            st.sidebar.warning("Port must be a whole number from 0 to 65535; port filtering is currently ignored.")
-            either_port = None
+    sidebar_label("Explore")
+    with st.sidebar.expander("Packet filters", expanded=True):
+        st.button("Reset filters", on_click=_clear_filter_state, width="stretch")
+        protocol = st.selectbox(
+            "Primary protocol",
+            ["All", "TCP", "UDP", "ICMP", "DNS", "ARP", "Other"],
+            key="filter_protocol",
+        )
+        ip_mode = st.radio("IP matching", ["Contains", "Exact"], horizontal=True, key="filter_ip_mode")
+        src_ip = st.text_input("Source IP", key="filter_src_ip", placeholder="192.168.50")
+        dst_ip = st.text_input("Destination IP", key="filter_dst_ip", placeholder="203.0.113.8")
+        port_text = st.text_input("Either port", key="filter_port", placeholder="53")
+        keyword = st.text_input("Summary / DNS keyword", key="filter_keyword", placeholder="example.com")
+        either_port = None
+        if port_text.strip():
+            try:
+                either_port = int(port_text)
+                if not 0 <= either_port <= 65535:
+                    raise ValueError
+            except ValueError:
+                st.warning("Enter a whole-number port from 0 to 65535.")
+                either_port = None
 
-    start_time = end_time = None
-    if records and st.session_state.active_mode != "Live Capture":
-        minimum = min(record.capture_time for record in records)
-        maximum = max(record.capture_time for record in records)
-        if maximum > minimum:
-            start_time, end_time = st.sidebar.slider(
-                "Capture time window",
-                min_value=minimum,
-                max_value=maximum,
-                value=(minimum, maximum),
-                step=timedelta(seconds=1),
-                format="HH:mm:ss",
-                key=f"time_filter_{st.session_state.source_revision}",
-            )
+        start_time = end_time = None
+        if records and st.session_state.active_mode != "Live Capture":
+            minimum = min(record.capture_time for record in records)
+            maximum = max(record.capture_time for record in records)
+            if maximum > minimum:
+                start_time, end_time = st.slider(
+                    "Capture time window",
+                    min_value=minimum,
+                    max_value=maximum,
+                    value=(minimum, maximum),
+                    step=timedelta(seconds=1),
+                    format="HH:mm:ss",
+                    key=f"time_filter_{st.session_state.source_revision}",
+                )
     return PacketFilters(protocol, src_ip, dst_ip, ip_mode, either_port, keyword, start_time, end_time)
 
 
 def main() -> None:
-    st.set_page_config(page_title="NetScope", page_icon="🌐", layout="wide", initial_sidebar_state="expanded")
+    st.set_page_config(page_title="NetScope", page_icon="◫", layout="wide", initial_sidebar_state="expanded")
     inject_styles()
     _initialize_state()
 
-    st.sidebar.title("NetScope")
-    st.sidebar.caption("Network Traffic & Protocol Analyzer")
-    mode = st.sidebar.radio("Data source", MODES, key="mode_selector")
+    sidebar_brand()
+    sidebar_label("Input source")
+    mode = st.sidebar.radio("Data source", MODES, key="mode_selector", label_visibility="collapsed")
     _switch_mode(mode)
     _source_controls(mode)
     filters = _filter_controls(st.session_state.records)
 
-    title_column, badge_column = st.columns([5, 1])
-    title_column.title("NetScope")
-    title_column.caption("Real packet parsing, protocol visualization, and OSI/TCP-IP learning")
-    with badge_column:
-        source_badge(st.session_state.source_label)
+    render_page_header(st.session_state.source_label)
 
     for warning in st.session_state.load_warnings:
         st.warning(warning)
@@ -261,9 +278,10 @@ def main() -> None:
     else:
         data_panel()
     st.divider()
-    st.caption(
-        "NetScope is an educational packet analyzer, not a firewall, certified IDS, internet-speed test, or HTTPS decryption tool. "
-        "Analyze only traffic and files you are authorized to inspect."
+    st.markdown(
+        '<p class="ns-footer">NetScope is an educational packet analyzer—not a firewall, certified IDS, '
+        'internet-speed test, or HTTPS decryption tool. Analyze only traffic and files you are authorized to inspect.</p>',
+        unsafe_allow_html=True,
     )
 
 
