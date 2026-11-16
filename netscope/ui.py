@@ -25,12 +25,12 @@ from .models import PacketRecord
 from .pcap_io import records_to_csv
 
 PROTOCOL_COLORS = {
-    "TCP": "#5AA9E6",
-    "UDP": "#7E8CE0",
-    "ICMP": "#55B891",
-    "DNS": "#D6A752",
-    "ARP": "#B47CC7",
-    "Other": "#7D8794",
+    "TCP": "#3978C5",
+    "UDP": "#6E68C9",
+    "ICMP": "#27896F",
+    "DNS": "#C88719",
+    "ARP": "#B65A7A",
+    "Other": "#7A8793",
 }
 
 CHART_CONFIG = {"displayModeBar": False, "responsive": True, "scrollZoom": False}
@@ -43,9 +43,9 @@ def inject_styles() -> None:
         """
         <style>
         :root {
-            --ns-bg: #0b0e12; --ns-sidebar: #0f1318; --ns-surface: #12171d;
-            --ns-border: #262d36; --ns-border-soft: #1e252d; --ns-text: #edf1f5;
-            --ns-muted: #8c97a5; --ns-subtle: #65707d; --ns-accent: #4fb3a5;
+            --ns-bg: #f6f8f9; --ns-sidebar: #eef2f3; --ns-surface: #ffffff;
+            --ns-border: #d9e0e4; --ns-border-soft: #e8edef; --ns-text: #17212b;
+            --ns-muted: #5f6d79; --ns-subtle: #7b8893; --ns-accent: #0f766e;
             --ns-mono: "Cascadia Code", "IBM Plex Mono", Consolas, monospace;
             --ns-sans: Inter, "IBM Plex Sans", "Segoe UI Variable", "Segoe UI", sans-serif;
         }
@@ -64,8 +64,8 @@ def inject_styles() -> None:
             -webkit-font-feature-settings: "liga" !important;
         }
         .stApp {background: var(--ns-bg); color: var(--ns-text);}
-        [data-testid="stHeader"] {background: rgba(11,14,18,.94); border-bottom: 1px solid var(--ns-border-soft);}
-        [data-testid="stToolbar"] {opacity: .55;}
+        [data-testid="stHeader"] {background: rgba(246,248,249,.94); border-bottom: 1px solid var(--ns-border-soft);}
+        [data-testid="stToolbar"] {opacity: .65;}
         .block-container {padding: 3.25rem 2.5rem 5rem; max-width: 1480px;}
         [data-testid="stSidebar"] {background: var(--ns-sidebar); border-right: 1px solid var(--ns-border); min-width: 290px;}
         [data-testid="stSidebar"] > div:first-child {padding-top: 1.35rem;}
@@ -77,37 +77,37 @@ def inject_styles() -> None:
         h3 {font-size: 1rem !important; font-weight: 620 !important;}
 
         .ns-brand {display: flex; align-items: center; gap: .72rem; padding: .1rem 0 1.35rem;}
-        .ns-mark {display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid #3a847b;
-            color: #79d2c5; font-family: var(--ns-mono); font-size: .72rem; font-weight: 700;
-            background: #112521; border-radius: 7px;}
+        .ns-mark {display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid #9acbc5;
+            color: #0b625c; font-family: var(--ns-mono); font-size: .72rem; font-weight: 700;
+            background: #dcefeb; border-radius: 7px;}
         .ns-brand-name {font-size: 1.02rem; line-height: 1.1; font-weight: 680; letter-spacing: -.02em; color: var(--ns-text);}
         .ns-brand-copy {font-size: .7rem; color: var(--ns-muted); margin-top: .18rem; letter-spacing: .02em;}
         .ns-sidebar-label, .ns-eyebrow {color: var(--ns-subtle); font-size: .66rem; font-weight: 700;
             letter-spacing: .12em; text-transform: uppercase;}
         .ns-sidebar-label {margin: .35rem 0 .6rem;}
-        .ns-sidebar-note {color: #a9b2bd; font-size: .76rem; line-height: 1.55; padding: .72rem .8rem;
-            background: #121920; border: 1px solid var(--ns-border-soft); border-left: 2px solid #3e877d;
+        .ns-sidebar-note {color: #53626e; font-size: .76rem; line-height: 1.55; padding: .72rem .8rem;
+            background: #f8fafb; border: 1px solid var(--ns-border); border-left: 2px solid #2a8a80;
             border-radius: 6px; margin: .7rem 0 .9rem;}
 
         .ns-page-deck {color: var(--ns-muted); font-size: .92rem; line-height: 1.55; margin: 0; max-width: 690px;}
         .ns-source-panel {margin-top: .35rem; padding: .72rem .85rem; background: var(--ns-surface);
             border: 1px solid var(--ns-border); border-radius: 8px; min-width: 195px;}
         .ns-source-label {color: var(--ns-subtle); font-size: .62rem; font-weight: 700; letter-spacing: .11em; text-transform: uppercase;}
-        .ns-source-value {display: flex; align-items: center; gap: .48rem; margin-top: .3rem; color: #dce2e8;
+        .ns-source-value {display: flex; align-items: center; gap: .48rem; margin-top: .3rem; color: #24313b;
             font-size: .78rem; font-weight: 650; letter-spacing: .035em;}
         .ns-status-dot {width: 7px; height: 7px; border-radius: 50%; background: var(--ns-accent);
-            box-shadow: 0 0 0 3px rgba(79,179,165,.12);}
+            box-shadow: 0 0 0 3px rgba(15,118,110,.12);}
 
         .ns-selection-bar {display: flex; align-items: center; justify-content: space-between; gap: 1rem;
             padding: .65rem .85rem; margin: 1.55rem 0 .85rem; color: var(--ns-muted); font-size: .77rem;
-            background: #0f1419; border: 1px solid var(--ns-border-soft); border-radius: 7px;}
+            background: #ffffff; border: 1px solid var(--ns-border); border-radius: 7px;}
         .ns-selection-bar strong {color: var(--ns-text); font-family: var(--ns-mono); font-weight: 600;}
-        .ns-selection-tag {color: #83c9be; font-family: var(--ns-mono); font-size: .67rem;
+        .ns-selection-tag {color: #0f766e; font-family: var(--ns-mono); font-size: .67rem;
             letter-spacing: .06em; text-transform: uppercase;}
 
         [data-testid="stMetric"] {background: var(--ns-surface); border: 1px solid var(--ns-border);
             padding: .95rem 1rem 1rem; border-radius: 8px; min-height: 112px; box-shadow: none;}
-        [data-testid="stMetric"]:hover {border-color: #39434e;}
+        [data-testid="stMetric"]:hover {border-color: #b8c5cb;}
         [data-testid="stMetricLabel"] p {color: var(--ns-muted); font-size: .7rem; font-weight: 670;
             letter-spacing: .055em; text-transform: uppercase; white-space: nowrap;}
         [data-testid="stMetricValue"] {font-family: var(--ns-mono); color: var(--ns-text);
@@ -123,46 +123,46 @@ def inject_styles() -> None:
         .ns-section-meta {color: var(--ns-subtle); font-family: var(--ns-mono); font-size: .62rem;
             letter-spacing: .06em; white-space: nowrap; padding-top: .15rem;}
 
-        .stButton > button, .stDownloadButton > button {background: #151b22; border: 1px solid #303944;
-            border-radius: 7px; color: #dce2e8; font-weight: 590; min-height: 2.35rem; box-shadow: none;}
-        .stButton > button:hover, .stDownloadButton > button:hover {background: #1b232c; border-color: #46515e; color: #fff;}
-        .stButton > button[kind="primary"] {background: #25665d; border-color: #317c70; color: #f3fffd;}
-        .stButton > button[kind="primary"]:hover {background: #2c756a; border-color: #459486;}
-        .stButton > button:focus, .stDownloadButton > button:focus {box-shadow: 0 0 0 2px rgba(79,179,165,.25);}
+        .stButton > button, .stDownloadButton > button {background: #ffffff; border: 1px solid #cbd4d9;
+            border-radius: 7px; color: #293640; font-weight: 590; min-height: 2.35rem; box-shadow: none;}
+        .stButton > button:hover, .stDownloadButton > button:hover {background: #f3f6f7; border-color: #9eacb4; color: #17212b;}
+        .stButton > button[kind="primary"] {background: #0f766e; border-color: #0f766e; color: #ffffff;}
+        .stButton > button[kind="primary"]:hover {background: #0b625c; border-color: #0b625c;}
+        .stButton > button:focus, .stDownloadButton > button:focus {box-shadow: 0 0 0 2px rgba(15,118,110,.20);}
 
         [data-baseweb="select"] > div, [data-baseweb="input"] > div, [data-testid="stTextInput"] input,
-        [data-testid="stNumberInput"] input {background: #0d1217 !important; border-color: #2b333d !important;
+        [data-testid="stNumberInput"] input {background: #ffffff !important; border-color: #ccd5da !important;
             border-radius: 7px !important;}
         [data-baseweb="select"] > div:focus-within, [data-testid="stTextInput"] input:focus,
-        [data-testid="stNumberInput"] input:focus {border-color: #4b8f86 !important; box-shadow: 0 0 0 1px #4b8f86 !important;}
+        [data-testid="stNumberInput"] input:focus {border-color: #318c84 !important; box-shadow: 0 0 0 1px #318c84 !important;}
         [data-testid="stRadio"] label {padding: .15rem 0;}
-        [data-testid="stFileUploaderDropzone"] {background: #0d1217; border-color: #2b333d; border-radius: 8px;}
+        [data-testid="stFileUploaderDropzone"] {background: #ffffff; border-color: #ccd5da; border-radius: 8px;}
 
-        [data-testid="stExpander"] {background: #10151b; border: 1px solid var(--ns-border) !important; border-radius: 8px !important;}
+        [data-testid="stExpander"] {background: #ffffff; border: 1px solid var(--ns-border) !important; border-radius: 8px !important;}
         [data-testid="stExpander"] summary {font-weight: 620; font-size: .82rem;}
         [data-baseweb="tab-list"] {gap: 1.6rem; border-bottom: 1px solid var(--ns-border);}
         [data-baseweb="tab"] {height: 3rem; padding: 0 .1rem; color: var(--ns-muted); font-weight: 590;}
         [aria-selected="true"][data-baseweb="tab"] {color: var(--ns-text);}
         [data-baseweb="tab-highlight"] {background: var(--ns-accent); height: 2px;}
         div[data-testid="stDataFrame"] {border: 1px solid var(--ns-border); border-radius: 8px; overflow: hidden;}
-        [data-testid="stJson"] {background: #0d1217 !important; border: 1px solid var(--ns-border-soft); border-radius: 7px;}
+        [data-testid="stJson"] {background: #f8fafb !important; border: 1px solid var(--ns-border); border-radius: 7px;}
 
         .ns-packet-summary {display: flex; justify-content: space-between; gap: 1rem; padding: .78rem .9rem;
-            margin: .6rem 0 1rem; background: #0e1718; border: 1px solid #233936;
+            margin: .6rem 0 1rem; background: #edf7f5; border: 1px solid #c9e3df;
             border-left: 2px solid var(--ns-accent); border-radius: 7px;}
-        .ns-packet-summary-main {color: #dfe7e6; font-family: var(--ns-mono); font-size: .77rem; line-height: 1.5;}
-        .ns-packet-id {color: #79c8bd; font-family: var(--ns-mono); font-size: .67rem; white-space: nowrap;}
+        .ns-packet-summary-main {color: #1d3c39; font-family: var(--ns-mono); font-size: .77rem; line-height: 1.5;}
+        .ns-packet-id {color: #0f766e; font-family: var(--ns-mono); font-size: .67rem; white-space: nowrap;}
         .ns-field-grid {display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px;
             background: var(--ns-border-soft); border: 1px solid var(--ns-border-soft); border-radius: 7px;
             overflow: hidden; margin-bottom: .65rem;}
-        .ns-field {background: #0f1419; padding: .72rem .8rem; min-width: 0;}
+        .ns-field {background: #f9fbfb; padding: .72rem .8rem; min-width: 0;}
         .ns-field-label {color: var(--ns-subtle); font-size: .61rem; font-weight: 700; letter-spacing: .08em;
             text-transform: uppercase; margin-bottom: .28rem;}
-        .ns-field-value {color: #dce2e8; font-family: var(--ns-mono); font-size: .73rem; overflow-wrap: anywhere;}
+        .ns-field-value {color: #26343e; font-family: var(--ns-mono); font-size: .73rem; overflow-wrap: anywhere;}
         .ns-field-help {color: var(--ns-muted); font-size: .72rem; line-height: 1.5; margin: .2rem 0 .35rem;}
         .ns-notice {padding: .75rem .85rem; border-radius: 7px; font-size: .76rem; line-height: 1.5; margin: .4rem 0 .9rem;}
-        .ns-notice-warn {background: #211d13; border: 1px solid #4c4125; color: #d6c99e;}
-        .ns-notice-neutral {background: #10171d; border: 1px solid #293641; color: #aab5bf;}
+        .ns-notice-warn {background: #fff8e7; border: 1px solid #ead8a8; color: #70551b;}
+        .ns-notice-neutral {background: #f1f5f6; border: 1px solid #d6e0e3; color: #53636e;}
         .ns-footer {color: var(--ns-subtle); font-size: .7rem; line-height: 1.55; padding-top: .5rem;}
 
         @media (max-width: 1050px) {
@@ -241,15 +241,15 @@ def _style_figure(figure: go.Figure, *, height: int) -> go.Figure:
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         margin={"l": 12, "r": 12, "t": 16, "b": 12},
-        font={"family": "Inter, Segoe UI, sans-serif", "color": "#8C97A5", "size": 11},
-        hoverlabel={"bgcolor": "#171D24", "bordercolor": "#303944", "font_color": "#EDF1F5"},
+        font={"family": "Inter, Segoe UI, sans-serif", "color": "#5F6D79", "size": 11},
+        hoverlabel={"bgcolor": "#FFFFFF", "bordercolor": "#CBD4D9", "font_color": "#17212B"},
         legend={"orientation": "h", "yanchor": "bottom", "y": 1.02, "xanchor": "left", "x": 0, "font_size": 10},
         hovermode="x unified",
     )
-    figure.update_xaxes(showgrid=False, zeroline=False, linecolor="#29313A", tickfont={"color": "#7D8794"},
-                        title_font={"color": "#65707D", "size": 10})
-    figure.update_yaxes(gridcolor="#20262E", griddash="dot", zeroline=False, linecolor="#29313A",
-                        tickfont={"color": "#7D8794"}, title_font={"color": "#65707D", "size": 10})
+    figure.update_xaxes(showgrid=False, zeroline=False, linecolor="#D7E0E4", tickfont={"color": "#6F7D88"},
+                        title_font={"color": "#7B8893", "size": 10})
+    figure.update_yaxes(gridcolor="#E7ECEF", griddash="dot", zeroline=False, linecolor="#D7E0E4",
+                        tickfont={"color": "#6F7D88"}, title_font={"color": "#7B8893", "size": 10})
     return figure
 
 
@@ -257,13 +257,13 @@ def _traffic_figure(series: pd.DataFrame) -> go.Figure:
     figure = make_subplots(specs=[[{"secondary_y": True}]])
     figure.add_trace(go.Bar(
         x=series["capture_time"], y=series["bytes"], name="Captured bytes",
-        marker={"color": "rgba(90,169,230,.20)", "line": {"width": 0}},
+        marker={"color": "rgba(57,120,197,.16)", "line": {"width": 0}},
         hovertemplate="%{y:,} B<extra></extra>",
     ), secondary_y=True)
     figure.add_trace(go.Scatter(
         x=series["capture_time"], y=series["packets"], name="Packets", mode="lines+markers",
-        line={"color": "#4FB3A5", "width": 2},
-        marker={"color": "#0B0E12", "line": {"color": "#72C9BD", "width": 1.5}, "size": 5},
+        line={"color": "#0F766E", "width": 2},
+        marker={"color": "#FFFFFF", "line": {"color": "#0F766E", "width": 1.5}, "size": 5},
         hovertemplate="%{y:,} packets<extra></extra>",
     ), secondary_y=False)
     figure.update_yaxes(title_text="Packets / second", secondary_y=False)
@@ -277,13 +277,13 @@ def _protocol_figure(distribution: pd.DataFrame) -> go.Figure:
     colors = [PROTOCOL_COLORS.get(label, PROTOCOL_COLORS["Other"]) for label in distribution["protocol"]]
     figure = go.Figure(go.Pie(
         labels=distribution["protocol"], values=distribution["packets"], hole=.68, sort=False,
-        marker={"colors": colors, "line": {"color": "#12171D", "width": 2}}, textinfo="none",
+        marker={"colors": colors, "line": {"color": "#FFFFFF", "width": 2}}, textinfo="none",
         hovertemplate="%{label}<br>%{value:,} packets · %{percent}<extra></extra>",
     ))
     figure.add_annotation(
-        text=f"<b>{total:,}</b><br><span style='font-size:10px;color:#65707D'>PACKETS</span>",
+        text=f"<b>{total:,}</b><br><span style='font-size:10px;color:#7B8893'>PACKETS</span>",
         x=.5, y=.5, showarrow=False,
-        font={"family": "Cascadia Code, Consolas, monospace", "size": 20, "color": "#EDF1F5"},
+        font={"family": "Cascadia Code, Consolas, monospace", "size": 20, "color": "#17212B"},
     )
     figure.update_layout(legend={"orientation": "v", "x": 1.02, "y": .5, "yanchor": "middle"})
     return _style_figure(figure, height=318)
@@ -291,7 +291,7 @@ def _protocol_figure(distribution: pd.DataFrame) -> go.Figure:
 
 def _endpoint_figure(source_frame: pd.DataFrame, destination_frame: pd.DataFrame) -> go.Figure:
     figure = make_subplots(rows=1, cols=2, horizontal_spacing=.28, subplot_titles=("Sources", "Destinations"))
-    for column, frame, color in ((1, source_frame, "#5AA9E6"), (2, destination_frame, "#7E8CE0")):
+    for column, frame, color in ((1, source_frame, "#3978C5"), (2, destination_frame, "#6E68C9")):
         display = frame.head(6).iloc[::-1]
         figure.add_trace(go.Bar(
             x=display["packets"], y=display["ip"], orientation="h",
@@ -299,7 +299,7 @@ def _endpoint_figure(source_frame: pd.DataFrame, destination_frame: pd.DataFrame
             hovertemplate="%{y}<br>%{x:,} packets<extra></extra>", showlegend=False,
         ), row=1, col=column)
     figure.update_xaxes(title_text="Packets")
-    figure.update_annotations(font={"size": 11, "color": "#AEB7C1"})
+    figure.update_annotations(font={"size": 11, "color": "#53636E"})
     return _style_figure(figure, height=318)
 
 
