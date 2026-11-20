@@ -21,4 +21,4 @@ Thumbs.db
 *.log
 *.pcap
 *.pcapng
-!samples/netscope_demo.pcap
+!samples/framesight_demo.pcap

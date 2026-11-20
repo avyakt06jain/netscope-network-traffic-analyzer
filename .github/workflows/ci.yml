@@ -33,7 +33,7 @@ jobs:
       - name: Verify deterministic demo PCAP
         run: |
           python scripts/generate_demo_pcap.py
-          git diff --exit-code -- samples/netscope_demo.pcap
+          git diff --exit-code -- samples/framesight_demo.pcap
 
       - name: Lint
         run: ruff check .
@@ -42,4 +42,4 @@ jobs:
         run: pytest -q
 
       - name: Import smoke test
-        run: python -c "import app; import netscope; print(netscope.__version__)"
+        run: python -c "import app; import framesight; print(framesight.__version__)"

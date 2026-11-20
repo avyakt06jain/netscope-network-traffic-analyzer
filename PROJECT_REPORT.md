@@ -1,4 +1,4 @@
-# NetScope — Network Traffic Analyzer & Protocol Visualization System
+# FrameSight — Network Traffic Analyzer & Protocol Visualization System
 
 **Name:** ____________________  
 **Roll Number:** ____________________  
@@ -9,7 +9,7 @@
 
 ## Abstract
 
-NetScope is an educational network traffic analyzer developed in Python for a third-year Computer Networks mini-project. It reads real classic-PCAP frames or captures authorized local traffic using Scapy, converts packet headers into immutable normalized records, and presents them through a Streamlit dashboard. The system explains Ethernet and ARP, IPv4 and IPv6, TCP and UDP, ICMP, DNS, encapsulation, traffic rates and practical capture limitations. Its default demonstration is an offline, deterministic 80-frame PCAP containing a coherent ARP exchange, ICMP echo traffic, DNS queries and responses, a TCP three-way handshake, TCP data acknowledgements and IPv4/IPv6 UDP examples. This makes the assessment reliable without internet access, administrator rights or a packet-capture driver. Protocol, address, port, keyword and time filters update statistics, charts, the packet table and CSV output from the same selection. A packet inspector maps observed headers to OSI and TCP/IP layers. Live capture uses a stoppable background sniffer with bounded memory and visible error handling. NetScope deliberately does not decrypt HTTPS, reconstruct payloads or claim intrusion-detection certainty; its focus is correct, explainable packet analysis.
+FrameSight is an educational network traffic analyzer developed in Python for a third-year Computer Networks mini-project. It reads real classic-PCAP frames or captures authorized local traffic using Scapy, converts packet headers into immutable normalized records, and presents them through a Streamlit dashboard. The system explains Ethernet and ARP, IPv4 and IPv6, TCP and UDP, ICMP, DNS, encapsulation, traffic rates and practical capture limitations. Its default demonstration is an offline, deterministic 80-frame PCAP containing a coherent ARP exchange, ICMP echo traffic, DNS queries and responses, a TCP three-way handshake, TCP data acknowledgements and IPv4/IPv6 UDP examples. This makes the assessment reliable without internet access, administrator rights or a packet-capture driver. Protocol, address, port, keyword and time filters update statistics, charts, the packet table and CSV output from the same selection. A packet inspector maps observed headers to OSI and TCP/IP layers. Live capture uses a stoppable background sniffer with bounded memory and visible error handling. FrameSight deliberately does not decrypt HTTPS, reconstruct payloads or claim intrusion-detection certainty; its focus is correct, explainable packet analysis.
 
 ## 1. Problem Statement and Objectives
 
@@ -27,7 +27,7 @@ Objectives:
 
 ## 2. Course Concept Mapping
 
-| Course concept | NetScope evidence |
+| Course concept | FrameSight evidence |
 |---|---|
 | OSI and TCP/IP models | Inspector maps Ethernet, IP, transport/control and application metadata |
 | Encapsulation | One record can contain Ethernet + IPv4 + UDP + DNS while receiving one primary chart label |
@@ -113,7 +113,7 @@ TCP/UDP flows canonicalize the two endpoint `(IP, port)` pairs so both direction
 
 The deterministic capture currently produces:
 
-- 80 packets and 5,340 captured frame bytes across 44.2 seconds.
+- 80 packets and 5,372 captured frame bytes across 44.2 seconds.
 - TCP 35, UDP 19, ICMP 14, DNS 10 and ARP 2 primary labels.
 - A genuine SYN, SYN-ACK, ACK sequence in the same four-tuple.
 - IPv4, IPv6 and a non-IP ARP example.
@@ -146,7 +146,7 @@ Clear filters, compare the five primary categories, then filter one protocol. Co
 
 The offline pytest suite covers parser fields, malformed input, DNS, ARP, IPv6, deterministic PCAP bytes/counts, import caps/errors, filtering, rates, timelines, flows, heuristics, CSV privacy and mocked capture lifecycle. `ruff check .` supplies static-quality validation.
 
-Opening `samples/netscope_demo.pcap` in Wireshark should show 80 frames. Wireshark display filters `arp`, `icmp || icmpv6`, `dns`, `tcp` and `udp && !dns` validate the underlying layers. NetScope's primary chart uses its documented precedence, so it should be compared with intentionally equivalent filters rather than Wireshark's highest-layer display text alone.
+Opening `samples/framesight_demo.pcap` in Wireshark should show 80 frames. Wireshark display filters `arp`, `icmp || icmpv6`, `dns`, `tcp` and `udp && !dns` validate the underlying layers. FrameSight's primary chart uses its documented precedence, so it should be compared with intentionally equivalent filters rather than Wireshark's highest-layer display text alone.
 
 ## 10. Limitations
 
@@ -160,7 +160,7 @@ Opening `samples/netscope_demo.pcap` in Wireshark should show 80 frames. Wiresha
 
 ## 11. Conclusion and Future Scope
 
-NetScope demonstrates practical packet analysis while remaining reliable and explainable for a classroom assessment. Its deterministic sample removes dependence on live network conditions, while its parser and inspector still use real Scapy packet structures. Reasonable future work includes verified PCAPNG support, more ICMPv6 subtype descriptions and carefully bounded additional application decoders. It should not expand into payload interception, decryption or intrusive scanning.
+FrameSight demonstrates practical packet analysis while remaining reliable and explainable for a classroom assessment. Its deterministic sample removes dependence on live network conditions, while its parser and inspector still use real Scapy packet structures. Reasonable future work includes verified PCAPNG support, more ICMPv6 subtype descriptions and carefully bounded additional application decoders. It should not expand into payload interception, decryption or intrusive scanning.
 
 ## 12. References
 

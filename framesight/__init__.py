@@ -1,4 +1,4 @@
-"""NetScope packet analysis package."""
+"""FrameSight packet analysis package."""
 
 from .models import PacketRecord
 from .parser import normalize_packet

@@ -2,7 +2,7 @@ from datetime import timedelta
 
 import pytest
 
-from netscope.filters import PacketFilters, filter_records
+from framesight.filters import PacketFilters, filter_records
 
 
 def test_combined_filters_and_original_unchanged(record_factory) -> None:

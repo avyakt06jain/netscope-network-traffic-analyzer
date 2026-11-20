@@ -1,4 +1,4 @@
-"""Typed immutable data models used throughout NetScope."""
+"""Typed immutable data models used throughout FrameSight."""
 
 from __future__ import annotations
 

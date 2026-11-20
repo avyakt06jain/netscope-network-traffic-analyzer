@@ -7,8 +7,8 @@ from scapy.layers.inet6 import IPv6
 from scapy.layers.l2 import ARP
 from scapy.utils import rdpcap
 
-from netscope.analytics import protocol_distribution, time_series
-from netscope.pcap_io import load_pcap
+from framesight.analytics import protocol_distribution, time_series
+from framesight.pcap_io import load_pcap
 from scripts.generate_demo_pcap import build_demo_packets, generate_demo_pcap
 
 

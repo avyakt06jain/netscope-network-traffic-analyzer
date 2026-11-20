@@ -7,7 +7,7 @@ from scapy.layers.inet import ICMP, IP, TCP, UDP
 from scapy.layers.inet6 import ICMPv6EchoRequest, IPv6
 from scapy.layers.l2 import ARP, Ether
 
-from netscope.parser import normalize_packet
+from framesight.parser import normalize_packet
 
 
 def stamp(packet, value: float = 1_700_000_000.125):

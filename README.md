@@ -1,6 +1,6 @@
-# NetScope — Network Traffic & Protocol Analyzer
+# FrameSight — Network Traffic & Protocol Analyzer
 
-NetScope is a Computer Networks mini-project that decodes real packet headers with Scapy and turns them into an explainable Streamlit dashboard. It demonstrates Ethernet/ARP, IPv4/IPv6, TCP/UDP, ICMP, DNS, traffic measurement, filtering, packet inspection and capture limitations without requiring an internet connection for its primary demo.
+FrameSight is a Computer Networks mini-project that decodes real packet headers with Scapy and turns them into an explainable Streamlit dashboard. It demonstrates Ethernet/ARP, IPv4/IPv6, TCP/UDP, ICMP, DNS, traffic measurement, filtering, packet inspection and capture limitations without requiring an internet connection for its primary demo.
 
 The default **DEMO SAMPLE** is a deterministic, locally generated classic PCAP. It is synthetic teaching traffic, not a recording of real users or a claim about a real browser session.
 
@@ -52,7 +52,7 @@ Open the local address printed by Streamlit, normally `http://localhost:8501`. T
 
 ```bash
 python scripts/generate_demo_pcap.py
-python -m netscope.pcap_io samples/netscope_demo.pcap
+python -m framesight.pcap_io samples/framesight_demo.pcap
 pytest -q
 ruff check .
 ```
@@ -60,7 +60,7 @@ ruff check .
 Expected demo summary:
 
 ```text
-Packets: 80; bytes: 5340; skipped: 0
+Packets: 80; bytes: 5372; skipped: 0
 TCP: 35
 UDP: 19
 ICMP: 14
@@ -70,7 +70,7 @@ ARP: 2
 
 The committed PCAP is reproducible byte-for-byte. Re-running the generator intentionally replaces it with the same deterministic content.
 
-GitHub Actions repeats generation, linting, tests and an import smoke check on Python 3.11 and 3.12 for every pull request and push to `main`. Contribution and responsible-reporting guidance are in [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
+GitHub Actions repeats generation, linting, tests and an import smoke check on Python 3.11 and 3.12 for every pull request and push to `main`. Use [STUDY_GUIDE.md](STUDY_GUIDE.md) for concept revision and the professor-ready walkthrough; contribution and responsible-reporting guidance are in [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
 
 ## Architecture
 
@@ -86,16 +86,16 @@ Key locations:
 
 ```text
 app.py                         Streamlit entry point and session behavior
-netscope/models.py             Immutable records and aggregate types
-netscope/parser.py             Packet-to-record normalization
-netscope/pcap_io.py            Bounded classic-PCAP import and CSV export
-netscope/analytics.py          Metrics, timelines, flows and heuristics
-netscope/filters.py            Non-mutating filtering
-netscope/capture.py            Thread-safe AsyncSniffer lifecycle
-netscope/educational.py        OSI/TCP-IP explanations and experiments
-netscope/ui.py                 Reusable dashboard and inspector rendering
+framesight/models.py             Immutable records and aggregate types
+framesight/parser.py             Packet-to-record normalization
+framesight/pcap_io.py            Bounded classic-PCAP import and CSV export
+framesight/analytics.py          Metrics, timelines, flows and heuristics
+framesight/filters.py            Non-mutating filtering
+framesight/capture.py            Thread-safe AsyncSniffer lifecycle
+framesight/educational.py        OSI/TCP-IP explanations and experiments
+framesight/ui.py                 Reusable dashboard and inspector rendering
 scripts/generate_demo_pcap.py  Deterministic 80-frame generator
-samples/netscope_demo.pcap     Bundled offline presentation capture
+samples/framesight_demo.pcap     Bundled offline presentation capture
 tests/                         Offline parser, IO, analytics, UI and capture tests
 ```
 
@@ -125,7 +125,7 @@ Select an interface, then explicitly click **Start**. The capture worker sends n
 - A zero-packet capture can mean the wrong interface, no traffic, filtered/encrypted DNS, missing driver or insufficient permission.
 - Demo and Imported modes remain fully usable if live capture is unavailable.
 
-NetScope sees only traffic exposed to the selected local interface. It does not automatically observe every device on Wi-Fi or a switched LAN.
+FrameSight sees only traffic exposed to the selected local interface. It does not automatically observe every device on Wi-Fi or a switched LAN.
 
 ## Fields and calculations
 
@@ -152,19 +152,19 @@ Missing fields are `N/A`: ARP does not receive invented IP-layer endpoints, and 
 4. Compare ICMP (type/code, no port) with DNS over UDP (transport plus application metadata).
 5. Filter DNS or an IP; confirm KPIs, chart, table and downloaded CSV all show the same selection.
 6. Try authorized Live Capture if Npcap/privileges are ready; otherwise import the bundled PCAP and obtain identical totals.
-7. Open `samples/netscope_demo.pcap` in Wireshark, compare the count/types, and state the visibility, permission and encryption limitations.
+7. Open `samples/framesight_demo.pcap` in Wireshark, compare the count/types, and state the visibility, permission and encryption limitations.
 
 See [VIVA_GUIDE.md](VIVA_GUIDE.md) for the spoken script and likely questions.
 
 ## Wireshark validation
 
-Open `samples/netscope_demo.pcap` in Wireshark. The status bar should show 80 packets. Display filters such as `arp`, `icmp || icmpv6`, `dns`, `tcp` and `udp && !dns` can validate the same headers. Wireshark may name or group protocols differently, but NetScope's primary chart deliberately counts each frame once.
+Open `samples/framesight_demo.pcap` in Wireshark. The status bar should show 80 packets. Display filters such as `arp`, `icmp || icmpv6`, `dns`, `tcp` and `udp && !dns` can validate the same headers. Wireshark may name or group protocols differently, but FrameSight's primary chart deliberately counts each frame once.
 
 ## Privacy and limitations
 
 - Analyze only captures and interfaces you are authorized to inspect.
 - CSV contains normalized header metadata only—never raw payload bytes—but IP addresses and DNS names can still be sensitive.
-- NetScope does not decrypt TLS/HTTPS, reconstruct files or credentials, inject packets, scan networks, act as a firewall, or prove an attack.
+- FrameSight does not decrypt TLS/HTTPS, reconstruct files or credentials, inject packets, scan networks, act as a firewall, or prove an attack.
 - Heuristic thresholds can trigger on normal traffic and are observations only.
 - Live retention is capped at 5,000 records; the worker queue is capped at 1,000 and displays drop counts.
 - Unsupported link types, severe truncation or unusual vendor layers may yield an error or an `Other` record.

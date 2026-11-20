@@ -1,9 +1,9 @@
-# AGENTS.md — NetScope: Computer Networks Mini Project
+# AGENTS.md — FrameSight: Computer Networks Mini Project
 
 > **Instructions for autonomous coding agents (Cursor / Windsurf / Copilot / Claude Code / other IDE agents).**
 > Read this entire document before writing code. Implement the actual project in the current workspace. Do not merely propose an architecture, generate a UI mockup, or stop after scaffolding. Work in small, testable milestones, run the tests, fix errors, and provide a reproducible demo. If a detail is unspecified, choose the simplest reliable implementation consistent with this document.
 
-**Project name:** NetScope — Network Traffic Analyzer & Protocol Visualization System  
+**Project name:** FrameSight — Network Traffic Analyzer & Protocol Visualization System  
 **Course:** Computer Networks, B.Tech CSE, Year 3, NSUT (V semester syllabus)  
 **Project type:** Individual/group-friendly undergraduate mini-project  
 **Implementation language:** Python 3.11+  
@@ -60,11 +60,11 @@ The supplied **NSUT Computer Networks syllabus, page 4**, explicitly includes mi
 - Dynamic Routing Simulation
 - Secure Web Server with TLS
 
-NetScope implements **Network Traffic Analysis & Packet Sniffing**, aligned with the Wireshark laboratory exercises covering ARP, ICMP, DHCP, congestion/packet loss and packet analysis. Earlier syllabus units cover OSI/TCP-IP, Ethernet, IPv4 and IPv6, TCP/UDP, DNS/HTTP, and network security.
+FrameSight implements **Network Traffic Analysis & Packet Sniffing**, aligned with the Wireshark laboratory exercises covering ARP, ICMP, DHCP, congestion/packet loss and packet analysis. Earlier syllabus units cover OSI/TCP-IP, Ethernet, IPv4 and IPv6, TCP/UDP, DNS/HTTP, and network security.
 
 ### Concepts the professor must see
 
-| Networking concept | Where it appears in NetScope | How to demonstrate |
+| Networking concept | Where it appears in FrameSight | How to demonstrate |
 |---|---|---|
 | Encapsulation; OSI/TCP-IP model | Packet Inspector / "Layers Explained" | Open Ethernet → IP → TCP/UDP → application metadata |
 | MAC vs IP address | Header details | Compare Layer-2 MAC fields to Layer-3 IP fields, when present |
@@ -77,7 +77,7 @@ NetScope implements **Network Traffic Analysis & Packet Sniffing**, aligned with
 | Packet inspection / security | Protocol information; basic heuristic | Show alerts are **heuristics**, not a certified IDS |
 | Wireshark validation | README / demo instructions | Open same PCAP in Wireshark and compare packet records/counts |
 
-**Important truthfulness:** NetScope is a *packet analyzer*, not a deep packet inspection system, network-wide router monitor, real firewall, or an AI intrusion detection system. Do not claim to decrypt TLS/HTTPS or inspect everyone on a shared Wi-Fi network.
+**Important truthfulness:** FrameSight is a *packet analyzer*, not a deep packet inspection system, network-wide router monitor, real firewall, or an AI intrusion detection system. Do not claim to decrypt TLS/HTTPS or inspect everyone on a shared Wi-Fi network.
 
 ---
 
@@ -180,7 +180,7 @@ Use a Python virtual environment; provide **requirements.txt** with tested, reas
 Suggested project structure (reasonable changes allowed if justified):
 
 ```text
-netscope/
+framesight/
 ├── AGENTS.md                        # This specification
 ├── app.py                           # Streamlit entry point and page composition
 ├── requirements.txt
@@ -190,7 +190,7 @@ netscope/
 ├── .gitignore
 ├── .streamlit/
 │   └── config.toml                  # Theme; no external secrets
-├── netscope/
+├── framesight/
 │   ├── __init__.py
 │   ├── models.py                     # Typed PacketRecord, enum/literals, metrics
 │   ├── parser.py                     # Scapy packet -> PacketRecord
@@ -203,7 +203,7 @@ netscope/
 ├── scripts/
 │   └── generate_demo_pcap.py         # Deterministic sample capture generator
 ├── samples/
-│   └── netscope_demo.pcap            # Small generated demo PCAP (commit it)
+│   └── framesight_demo.pcap            # Small generated demo PCAP (commit it)
 └── tests/
     ├── conftest.py
     ├── test_parser.py
@@ -213,7 +213,7 @@ netscope/
     └── test_demo_capture.py
 ```
 
-Avoid name collisions between `netscope/` package and the root; structure above is intentional.
+Avoid name collisions between `framesight/` package and the root; structure above is intentional.
 
 ### 4.3 PacketRecord model
 
@@ -366,7 +366,7 @@ Label them **"Heuristic observations (not security incidents)"**. Thresholds are
 ### 5.7 CSV export and privacy
 
 - Export normalized header metadata only (packet time, src/dst IP, ports, lengths, labels, flags, optional DNS query), not raw payloads or decrypted content.
-- File name like `netscope_packets_<source>.csv`.
+- File name like `framesight_packets_<source>.csv`.
 - Include explicit caveat that even IP addresses and DNS names can be sensitive; export only authorized data.
 - No server-side storage of upload files beyond temporary parsing. No telemetry, analytics trackers or network calls to outside APIs.
 
@@ -413,7 +413,7 @@ Create an attractive, modern, restrained **network observability** dashboard. It
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
-│ NetScope | Network Traffic & Protocol Analyzer    [DEMO SAMPLE] │
+│ FrameSight | Network Traffic & Protocol Analyzer    [DEMO SAMPLE] │
 ├──────────────────┬──────────────────────────────────────────────┤
 │ CAPTURE CONTROLS │  KPIs: Packets | Bytes | Pkt/s | Unique IPs   │
 │ Source mode      │──────────────────────────────────────────────│
@@ -456,7 +456,7 @@ At least these explanations (one or two sentences each):
 - **UDP:** connectionless datagram delivery; no native retransmission/ordering guarantee.
 - **ICMP:** control/diagnostic messages; echo request/reply used by ping.
 - **DNS:** mapping names to DNS resource records; traditional DNS messages may be parsed if visible.
-- **TLS/HTTPS:** application data typically encrypted; NetScope cannot decrypt it from ordinary packet headers.
+- **TLS/HTTPS:** application data typically encrypted; FrameSight cannot decrypt it from ordinary packet headers.
 
 Add a simple mapping from observed layers to OSI vs TCP/IP to reinforce syllabus learning. Avoid pretending to detect OSI Session and Presentation layers directly.
 
@@ -467,7 +467,7 @@ Add a simple mapping from observed layers to OSI vs TCP/IP to reinforce syllabus
 The application and docs must support exactly this reproducible narrative:
 
 **Minute 0–1: Context**
-- Introduce NetScope as a mini-project addressing packet sniffing and traffic analysis from the CN syllabus.
+- Introduce FrameSight as a mini-project addressing packet sniffing and traffic analysis from the CN syllabus.
 - Point to selected mode label: `DEMO SAMPLE` (offline, deterministic) and explain live mode separately.
 
 **Minute 1–2: Capture source and main dashboard**
@@ -548,7 +548,7 @@ The application and docs must support exactly this reproducible narrative:
 - [ ] Filter protocol, IP and port; packet table and charts update correctly.
 - [ ] Clear filters restores original data.
 - [ ] CSV download matches table selection.
-- [ ] Upload `samples/netscope_demo.pcap`: same results as Load Demo.
+- [ ] Upload `samples/framesight_demo.pcap`: same results as Load Demo.
 - [ ] Upload invalid file: helpful error, no crash.
 - [ ] Select live interface: Start/Stop works or helpful no-privilege message appears.
 - [ ] Repeated Streamlit reruns do not spawn new sniffers.
@@ -715,4 +715,4 @@ The idea and course-concept mapping come from the uploaded **NSUT Computer Netwo
 
 # BEGIN IMPLEMENTATION NOW
 
-Read the execution contract, then **actually create the working NetScope project in this workspace**. Do not stop at planning. Start with the parser and deterministic demo PCAP, run tests, then implement the UI, then live capture, then professor documentation. Keep the project simple enough to explain in a third-year Computer Networks viva and polished enough for a classroom demonstration.
+Read the execution contract, then **actually create the working FrameSight project in this workspace**. Do not stop at planning. Start with the parser and deterministic demo PCAP, run tests, then implement the UI, then live capture, then professor documentation. Keep the project simple enough to explain in a third-year Computer Networks viva and polished enough for a classroom demonstration.

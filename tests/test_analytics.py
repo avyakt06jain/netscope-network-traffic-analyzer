@@ -1,6 +1,6 @@
 from dataclasses import replace
 
-from netscope.analytics import (
+from framesight.analytics import (
     aggregate_flows,
     heuristic_observations,
     protocol_distribution,

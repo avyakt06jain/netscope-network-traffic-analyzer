@@ -6,7 +6,7 @@ from datetime import UTC, datetime, timedelta
 
 import pytest
 
-from netscope.models import PacketRecord
+from framesight.models import PacketRecord
 
 
 def make_record(packet_id: int, **changes) -> PacketRecord:

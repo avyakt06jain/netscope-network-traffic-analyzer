@@ -128,7 +128,7 @@ def load_pcap_bytes(
         raise PcapTooLargeError("The uploaded PCAP exceeds the 20 MiB limit.")
     temp_path: str | None = None
     try:
-        with tempfile.NamedTemporaryFile(prefix="netscope_", suffix=".pcap", delete=False) as handle:
+        with tempfile.NamedTemporaryFile(prefix="framesight_", suffix=".pcap", delete=False) as handle:
             handle.write(data)
             temp_path = handle.name
         return load_pcap(temp_path, max_file_bytes=max_file_bytes, max_packets=max_packets)
@@ -153,7 +153,7 @@ def records_to_csv(records: list[PacketRecord] | tuple[PacketRecord, ...]) -> by
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Validate and summarize a classic PCAP with NetScope.")
+    parser = argparse.ArgumentParser(description="Validate and summarize a classic PCAP with FrameSight.")
     parser.add_argument("pcap", type=Path)
     args = parser.parse_args()
     result = load_pcap(args.pcap)

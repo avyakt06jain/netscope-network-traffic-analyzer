@@ -4,7 +4,7 @@ import pytest
 from scapy.layers.inet import IP, TCP
 from scapy.layers.l2 import Ether
 
-from netscope.capture import CaptureController, CaptureError
+from framesight.capture import CaptureController, CaptureError
 
 
 class FakeSniffer:

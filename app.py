@@ -1,4 +1,4 @@
-"""NetScope Streamlit application entry point."""
+"""FrameSight Streamlit application entry point."""
 
 from __future__ import annotations
 
@@ -7,10 +7,10 @@ from pathlib import Path
 
 import streamlit as st
 
-from netscope.capture import CaptureController, CaptureError, list_interfaces
-from netscope.filters import PacketFilters, filter_records
-from netscope.pcap_io import PcapImportError, load_pcap, load_pcap_bytes
-from netscope.ui import (
+from framesight.capture import CaptureController, CaptureError, list_interfaces
+from framesight.filters import PacketFilters, filter_records
+from framesight.pcap_io import PcapImportError, load_pcap, load_pcap_bytes
+from framesight.ui import (
     inject_styles,
     render_dashboard,
     render_page_header,
@@ -20,7 +20,7 @@ from netscope.ui import (
 )
 
 ROOT = Path(__file__).resolve().parent
-DEMO_PATH = ROOT / "samples" / "netscope_demo.pcap"
+DEMO_PATH = ROOT / "samples" / "framesight_demo.pcap"
 MODES = ("Demo PCAP", "Import PCAP", "Live Capture")
 
 
@@ -101,7 +101,7 @@ def _source_controls(mode: str) -> None:
             st.sidebar.download_button(
                 "Download sample PCAP",
                 DEMO_PATH.read_bytes(),
-                file_name="netscope_demo.pcap",
+                file_name="framesight_demo.pcap",
                 mime="application/vnd.tcpdump.pcap",
                 width="stretch",
             )
@@ -222,7 +222,7 @@ def _filter_controls(records) -> PacketFilters:
 
 
 def main() -> None:
-    st.set_page_config(page_title="NetScope", page_icon="◫", layout="wide", initial_sidebar_state="expanded")
+    st.set_page_config(page_title="FrameSight", page_icon="◫", layout="wide", initial_sidebar_state="expanded")
     inject_styles()
     _initialize_state()
 
@@ -279,7 +279,7 @@ def main() -> None:
         data_panel()
     st.divider()
     st.markdown(
-        '<p class="ns-footer">NetScope is an educational packet analyzer—not a firewall, certified IDS, '
+        '<p class="ns-footer">FrameSight is an educational packet analyzer—not a firewall, certified IDS, '
         'internet-speed test, or HTTPS decryption tool. Analyze only traffic and files you are authorized to inspect.</p>',
         unsafe_allow_html=True,
     )

@@ -12,8 +12,8 @@ FIELD_EXPLANATIONS = {
     "TCP flags": "Control signals such as SYN, ACK, FIN and RST used to establish, manage and close TCP connections.",
     "UDP": "Connectionless datagram delivery with no native ordering, acknowledgement or retransmission guarantee.",
     "ICMP": "Network control and diagnostic messages. Ping commonly uses ICMP Echo Request and Echo Reply.",
-    "DNS": "Maps names to resource records. NetScope can parse traditional visible DNS messages, including queries and answers.",
-    "TLS / HTTPS": "Application content is normally encrypted. Ordinary packet headers do not let NetScope decrypt HTTPS.",
+    "DNS": "Maps names to resource records. FrameSight can parse traditional visible DNS messages, including queries and answers.",
+    "TLS / HTTPS": "Application content is normally encrypted. Ordinary packet headers do not let FrameSight decrypt HTTPS.",
 }
 
 OSI_MAPPING = [
@@ -26,7 +26,7 @@ OSI_MAPPING = [
 CONCEPTS_MARKDOWN = """
 ### Encapsulation and the two models
 
-An Ethernet frame can carry an IPv4 or IPv6 packet, which can carry a TCP/UDP segment, which can carry application data such as DNS. The OSI model has seven conceptual layers; the practical TCP/IP model groups them into Network Access, Internet, Transport and Application. NetScope does not pretend to observe separate Session or Presentation headers.
+An Ethernet frame can carry an IPv4 or IPv6 packet, which can carry a TCP/UDP segment, which can carry application data such as DNS. The OSI model has seven conceptual layers; the practical TCP/IP model groups them into Network Access, Internet, Transport and Application. FrameSight does not pretend to observe separate Session or Presentation headers.
 
 ### Protocol essentials
 
@@ -35,8 +35,8 @@ An Ethernet frame can carry an IPv4 or IPv6 packet, which can carry a TCP/UDP se
 - **TCP:** Connection-oriented byte-stream transport. A normal opening uses SYN → SYN-ACK → ACK, then sequence and acknowledgement numbers track bytes.
 - **UDP:** Small connectionless datagrams with lower protocol overhead but no built-in delivery guarantee.
 - **ICMP:** Control and diagnostics, including the Echo messages used by `ping`; it has types/codes rather than TCP/UDP ports.
-- **DNS:** Name-to-record lookup, often over UDP port 53. A port is only a hint; NetScope labels DNS only when Scapy actually decodes a DNS header.
-- **TLS/HTTPS:** Payloads are normally encrypted. NetScope can show endpoints, ports and sizes, but it cannot decrypt application content.
+- **DNS:** Name-to-record lookup, often over UDP port 53. A port is only a hint; FrameSight labels DNS only when Scapy actually decodes a DNS header.
+- **TLS/HTTPS:** Payloads are normally encrypted. FrameSight can show endpoints, ports and sizes, but it cannot decrypt application content.
 """
 
 EXPERIMENTS = {

@@ -5,7 +5,7 @@ from scapy.layers.inet import IP, TCP
 from scapy.layers.l2 import Ether
 from scapy.utils import wrpcap
 
-from netscope.pcap_io import (
+from framesight.pcap_io import (
     PcapImportError,
     PcapTooLargeError,
     UnsupportedPcapError,

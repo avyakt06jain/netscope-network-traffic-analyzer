@@ -19,6 +19,6 @@ def test_default_demo_renders_without_exception() -> None:
     app = AppTest.from_file(Path(__file__).parents[1] / "app.py", default_timeout=30)
     app.run()
     assert not app.exception
-    assert any(title.value == "NetScope" for title in app.title)
+    assert any(title.value == "FrameSight" for title in app.title)
     values = [metric.value for metric in app.metric]
     assert "80" in values

@@ -1,4 +1,4 @@
-"""Reusable Streamlit rendering helpers for NetScope."""
+"""Reusable Streamlit rendering helpers for FrameSight."""
 
 from __future__ import annotations
 
@@ -184,8 +184,8 @@ def sidebar_brand() -> None:
     st.sidebar.markdown(
         """
         <div class="ns-brand">
-          <div class="ns-mark">NS</div>
-          <div><div class="ns-brand-name">NetScope</div><div class="ns-brand-copy">Packet analysis workbench</div></div>
+          <div class="ns-mark">FS</div>
+          <div><div class="ns-brand-name">FrameSight</div><div class="ns-brand-copy">Packet analysis workbench</div></div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -204,7 +204,7 @@ def render_page_header(source_label: str) -> None:
     left, right = st.columns([5.4, 1.55], vertical_alignment="top")
     with left:
         st.markdown('<div class="ns-eyebrow">Network observability workbench</div>', unsafe_allow_html=True)
-        st.title("NetScope")
+        st.title("FrameSight")
         st.markdown(
             '<p class="ns-page-deck">Inspect real packet headers, validate protocol behavior, and explain the network stack with reproducible evidence.</p>',
             unsafe_allow_html=True,
@@ -416,7 +416,7 @@ def render_dashboard(
                             f"{len(filtered):,} ROWS")
         with action:
             st.download_button("Export filtered CSV", data=records_to_csv(list(filtered)),
-                               file_name=f"netscope_packets_{source_slug}.csv", mime="text/csv",
+                               file_name=f"framesight_packets_{source_slug}.csv", mime="text/csv",
                                help="IP addresses and DNS names can still be sensitive.", width="stretch")
         st.dataframe(
             records_dataframe(filtered), hide_index=True, width="stretch", height=390,
@@ -465,7 +465,7 @@ def render_dashboard(
     with learn_tab:
         st.markdown(CONCEPTS_MARKDOWN)
         st.markdown("### OSI and TCP/IP mapping")
-        st.dataframe(pd.DataFrame(OSI_MAPPING, columns=["OSI", "TCP/IP", "What NetScope can show"]),
+        st.dataframe(pd.DataFrame(OSI_MAPPING, columns=["OSI", "TCP/IP", "What FrameSight can show"]),
                      hide_index=True, width="stretch")
         st.markdown("### Classroom mini-experiments")
         for name, instructions in EXPERIMENTS.items():

@@ -1,4 +1,4 @@
-"""Generate NetScope's deterministic, offline teaching capture."""
+"""Generate FrameSight's deterministic, offline teaching capture."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from scapy.packet import Raw
 from scapy.utils import wrpcap
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT = ROOT / "samples" / "netscope_demo.pcap"
+DEFAULT_OUTPUT = ROOT / "samples" / "framesight_demo.pcap"
 BASE_TIME = datetime(2024, 1, 15, 10, 0, tzinfo=UTC).timestamp()
 
 CLIENT_MAC = "02:00:00:00:50:10"
@@ -105,7 +105,7 @@ def build_demo_packets() -> list:
     ])
     next_client_seq = client_seq + 1
     for index in range(16):
-        payload = f"NetScope teaching message {index + 1:02d}".encode()
+        payload = f"FrameSight teaching message {index + 1:02d}".encode()
         data_time = 15.5 + index * 0.28
         packets.append(_at(
             Ether(src=CLIENT_MAC, dst=REMOTE_MAC)

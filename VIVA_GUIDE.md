@@ -1,14 +1,14 @@
-# NetScope Viva and Demonstration Guide
+# FrameSight Viva and Demonstration Guide
 
 ## 5–7 minute spoken demonstration
 
 ### Minute 0–1 — Context
 
-“NetScope implements the Network Traffic Analysis and Packet Sniffing mini-project area from Computer Networks. The current badge says **DEMO SAMPLE**. This is a deterministic offline PCAP generated with Scapy, so the demonstration is repeatable without internet, Npcap or administrator rights. It is clearly synthetic and contains no real user's traffic.”
+“FrameSight implements the Network Traffic Analysis and Packet Sniffing mini-project area from Computer Networks. The current badge says **DEMO SAMPLE**. This is a deterministic offline PCAP generated with Scapy, so the demonstration is repeatable without internet, Npcap or administrator rights. It is clearly synthetic and contains no real user's traffic.”
 
 ### Minute 1–2 — Source and dashboard
 
-“The sample contains 80 real PCAP frames. NetScope streams and normalizes their headers rather than generating random dashboard rows. The KPIs count captured frames and frame bytes. The rate is packets or captured bytes divided by the PCAP observation span; it is not internet speed. The pie chart is mutually exclusive, so a DNS-over-UDP frame is counted once as DNS.”
+“The sample contains 80 real PCAP frames. FrameSight streams and normalizes their headers rather than generating random dashboard rows. The KPIs count captured frames and frame bytes. The rate is packets or captured bytes divided by the PCAP observation span; it is not internet speed. The pie chart is mutually exclusive, so a DNS-over-UDP frame is counted once as DNS.”
 
 Point out TCP 35, UDP 19, ICMP 14, DNS 10 and ARP 2. Show timeline bursts and quiet intervals.
 
@@ -16,7 +16,7 @@ Point out TCP 35, UDP 19, ICMP 14, DNS 10 and ARP 2. Show timeline bursts and qu
 
 Filter TCP and select the first SYN packet in Packet Inspector.
 
-“The Ethernet header contains local-link MAC addresses. IPv4 contains logical routed addresses and TTL. TCP contains ports, sequence numbers and control flags. This demonstrates encapsulation: Ethernet carries IP, which carries TCP. NetScope maps these to OSI and TCP/IP layers without pretending to detect separate Session and Presentation headers.”
+“The Ethernet header contains local-link MAC addresses. IPv4 contains logical routed addresses and TTL. TCP contains ports, sequence numbers and control flags. This demonstrates encapsulation: Ethernet carries IP, which carries TCP. FrameSight maps these to OSI and TCP/IP layers without pretending to detect separate Session and Presentation headers.”
 
 ### Minute 3–4 — Handshake and protocol comparison
 
@@ -36,22 +36,22 @@ Filter DNS or enter `192.168.50.53` as an endpoint.
 
 ### Minute 5–6 — Live or imported mode
 
-If Npcap/privileges are available, select the active interface, Start, run an authorized `ping` or `nslookup`, then Stop. Otherwise choose Import PCAP and upload `samples/netscope_demo.pcap`.
+If Npcap/privileges are available, select the active interface, Start, run an authorized `ping` or `nslookup`, then Stop. Otherwise choose Import PCAP and upload `samples/framesight_demo.pcap`.
 
-“Live capture is optional for the reliable assessment path. Failure is shown honestly with driver/privilege advice; NetScope never fakes live success. Importing the bundled PCAP gives the same 80 records.”
+“Live capture is optional for the reliable assessment path. Failure is shown honestly with driver/privilege advice; FrameSight never fakes live success. Importing the bundled PCAP gives the same 80 records.”
 
 ### Minute 6–7 — Wireshark and limitations
 
 Open the same PCAP in Wireshark and show the 80-frame count or describe the validation filters.
 
-“NetScope cannot decrypt HTTPS, automatically see every device on a switched or wireless LAN, or prove an attack from a traffic pattern. The optional observations are tunable heuristics, not IDS verdicts. Its purpose is explainable packet analysis rather than replacing Wireshark.”
+“FrameSight cannot decrypt HTTPS, automatically see every device on a switched or wireless LAN, or prove an attack from a traffic pattern. The optional observations are tunable heuristics, not IDS verdicts. Its purpose is explainable packet analysis rather than replacing Wireshark.”
 
 ## Likely viva questions and short answers
 
 1. **What is packet sniffing?**  
    Capturing packets visible to a network interface so their headers and, when authorized and visible, content can be analyzed.
 
-2. **Why is NetScope a packet analyzer rather than a network-wide monitor?**  
+2. **Why is FrameSight a packet analyzer rather than a network-wide monitor?**  
    It only receives traffic exposed to the selected local interface; switches, Wi-Fi isolation and routing limit visibility.
 
 3. **What is encapsulation?**  
@@ -94,12 +94,12 @@ Open the same PCAP in Wireshark and show the 80-frame count or describe the vali
     QR=0 identifies a query and QR=1 identifies a response.
 
 16. **Why not label every UDP/53 packet as DNS?**  
-    A port is only a service hint. NetScope requires Scapy to decode an actual DNS layer.
+    A port is only a service hint. FrameSight requires Scapy to decode an actual DNS layer.
 
 17. **Why can DNS be absent during a live `nslookup` experiment?**  
     The lookup may be cached, encrypted, sent through another interface, or hidden by capture permissions/backend limitations.
 
-18. **Can NetScope decrypt HTTPS?**  
+18. **Can FrameSight decrypt HTTPS?**  
     No. TLS normally encrypts application data; ordinary packet headers reveal endpoints and sizes but not plaintext.
 
 19. **Why is protocol distribution mutually exclusive?**  
@@ -151,4 +151,4 @@ Open the same PCAP in Wireshark and show the 80-frame count or describe the vali
 
 ## If live capture is unavailable
 
-State the limitation openly: “This computer does not currently provide the required driver/privilege path, so I am using the project's designed offline fallback.” Reload **DEMO SAMPLE** or import `samples/netscope_demo.pcap`, show identical totals, and continue the full parser/filter/inspector/Wireshark demonstration. This is a valid result, not a simulated live capture.
+State the limitation openly: “This computer does not currently provide the required driver/privilege path, so I am using the project's designed offline fallback.” Reload **DEMO SAMPLE** or import `samples/framesight_demo.pcap`, show identical totals, and continue the full parser/filter/inspector/Wireshark demonstration. This is a valid result, not a simulated live capture.
